@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: replace DOMAIN with the real domain and uncomment
+# Sitemap: https://DOMAIN/sitemap.xml
