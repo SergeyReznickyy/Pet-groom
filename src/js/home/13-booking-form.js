@@ -27,6 +27,12 @@ if (matchMedia("(max-width: 640px)").matches) {
   noteToggle.textContent = "+ Додати коментар";
   noteToggle.style.setProperty("--k", noteField.style.getPropertyValue("--k"));
   noteField.classList.add("is-folded");
+  // empty date shows "Оберіть дату" (CSS) until a day is picked
+  const dateField = bookForm.elements.date.closest(".bf-field");
+  const syncDate = () => dateField.classList.toggle("is-empty", !bookForm.elements.date.value);
+  bookForm.elements.date.addEventListener("input", syncDate);
+  bookForm.elements.date.addEventListener("change", syncDate);
+  syncDate();
   // the half-width breed field fits only a short hint
   bookForm.elements.breed.placeholder = "шпіц, 3 кг";
   noteField.before(noteToggle);
