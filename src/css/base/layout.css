@@ -1,0 +1,48 @@
+/* ---------- cut line divider ---------- */
+.cut {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--steel);
+  max-width: var(--wrap);
+  margin: 0 auto;
+}
+.cut::before,
+.cut::after {
+  content: "";
+  flex: 1;
+  border-top: 1.5px dashed var(--line);
+}
+.cut svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+
+/* ---------- sections ---------- */
+.section {
+  padding-block: var(--sec-y);
+}
+/* back-to-back sections share one gap instead of doubling it */
+.section + .section {
+  padding-top: 0;
+}
+.sec-head {
+  display: grid;
+  gap: 12px;
+  max-width: 46rem;
+  margin-bottom: 40px;
+}
+.sec-head h2 {
+  font-size: var(--step-3);
+}
+.sec-head p {
+  color: var(--steel);
+  font-size: 1.0625rem;
+}
+.sec-head .eyebrow {
+  color: var(--tg);
+  font-size: var(--step--1);
+}

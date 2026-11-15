@@ -1,0 +1,79 @@
+/* Phones: footer as one centred column — logo, tagline, contacts, round social icons, © (desktop has its own grid above). */
+@media (max-width: 640px) {
+  .footer {
+    padding-top: 36px;
+  }
+  .footer .wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 14px;
+    width: 100%;
+    text-align: center;
+  }
+  /* the promo label follows the promo button: hidden over the footer and contacts */
+  html.float-off .promo-teaser {
+    display: none;
+  }
+  .footer .wrap > img {
+    height: 56px;
+  }
+  .footer .wrap > span:first-of-type {
+    max-width: 24ch;
+    font-size: 0.875rem;
+  }
+  .footer .wrap > a[href*="instagram"] {
+    display: none; /* Instagram sits with the other socials */
+  }
+  .footer-info,
+  .footer-social {
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    width: 100%;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    color: var(--steel);
+    font-size: 0.8125rem;
+  }
+  .footer-info b,
+  .footer-social b {
+    color: var(--ink);
+    font-size: 0.875rem;
+    margin-bottom: 2px;
+  }
+  .footer .footer-info a {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    padding-block: 8px;
+    margin-block: -6px -8px;
+  }
+  .footer-social div {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .footer .footer-social a {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .footer-social .ico {
+    width: 20px;
+    height: 20px;
+  }
+  .footer .wrap > span:last-child {
+    margin-top: 4px;
+    font-size: 0.75rem;
+  }
+}

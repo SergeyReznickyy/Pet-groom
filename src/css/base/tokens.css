@@ -1,0 +1,139 @@
+/* Palette follows the Instagram logo: violet accent on lavender. Sections are separated by a dashed "cut line" with the logo's scissors. */
+:root {
+  color-scheme: light;
+  --paper: #fcfaff;
+  --surface: #ffffff;
+  --ink: #2d1f45;
+  --steel: #6d6285;
+  --line: #ece4f6;
+  --tg: #7a3fc6;
+  --tg-deep: #5e2aa6;
+  --tg-soft: #f3ecfd;
+  --on-tg: #ffffff;
+  --bubble-in: #ffffff;
+  --bubble-out: #ebdffb;
+  --chat-bg: #f1e9fc;
+  --logo-filter: none;
+  --grad: linear-gradient(135deg, var(--tg-a) 0%, var(--tg-b) 100%);
+  /* every violet shade used across the page lives here, so the palette can be changed in one place */
+  --tg-a: #9159dc;
+  --tg-b: #6c33b8;
+  --tg-c: #4b1f88;
+  --tg-hi: #b88cf0;
+  --tg-lite: #a77be6;
+  --tg-glow: #c9a6ff;
+  --tint-a: #f5effd;
+  --tint-b: #ebdffb;
+  --tint-c: #e6d6fb;
+  --tint-d: #f8f3fe;
+  --tint-e: #dccaf7;
+  --tint-f: #faf6ff;
+  --tg-rgb: 122 63 198;
+  --shadow-rgb: 76 40 130;
+  --ink-rgb: 45 31 69;
+  --paper-rgb: 252 250 255;
+  --tint-rgb: 246 239 254;
+  /* promos get their own warm accent so they never blend with the violet booking buttons */
+  --promo: #d92f6b;
+  --promo-grad: linear-gradient(135deg, #ff6b8f 0%, #d92f6b 100%);
+  --shadow:
+    0 1px 2px rgb(var(--shadow-rgb) / 0.05), 0 18px 40px -18px rgb(var(--shadow-rgb) / 0.22);
+
+  --f-display: "Comfortaa", "Varela Round", system-ui, sans-serif;
+  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.625rem;
+  --step-3: clamp(1.9rem, 1.4rem + 2vw, 2.6rem);
+  --step-4: clamp(2.2rem, 1.5rem + 3.2vw, 3.6rem);
+
+  --radius: 18px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* grows with large monitors (no effect below ~1580px) */
+  --wrap: clamp(1140px, 72vw, 1720px);
+  /* one vertical rhythm for every block: space between sections, and the gap around a cut line */
+  --sec-y: 64px;
+}
+/* Phones: a smaller type scale and tighter spacing so blocks fit the screen without endless scrolling. */
+@media (max-width: 640px) {
+  :root {
+    --step-1: 1.125rem;
+    --step-2: 1.375rem;
+    --step-3: 1.6rem;
+    --step-4: 2rem;
+    --sec-y: 44px;
+  }
+}
+/* Large monitors: rem-based type grows smoothly with the viewport (no effect below ~1440px), so the page never sits as a narrow strip in the middle. */
+html {
+  font-size: clamp(16px, 0.35vw + 11px, 20px);
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  /* anchor jumps land below the sticky header */
+  scroll-padding-top: 76px;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  padding-inline: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+a {
+  color: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--tg);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--f-display);
+  font-weight: 500;
+  line-height: 1.15;
+  text-wrap: balance;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+p {
+  margin: 0;
+}
+.eyebrow {
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tg);
+}
+.ico {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: currentColor;
+}

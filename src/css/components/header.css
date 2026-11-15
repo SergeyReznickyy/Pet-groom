@@ -1,0 +1,119 @@
+/* ---------- header ---------- */
+.header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  margin-inline: -20px;
+  padding-inline: 20px;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.header {
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+/* While the page is at the very top, the header sits transparently on the hero photo. */
+.header.is-top {
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.header .wrap {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  min-height: 72px;
+  transition: transform 0.25s ease;
+}
+/* At the top the header content sits a little lower over the hero; shifted visually so the layout below doesn't move. */
+.header.is-top .wrap {
+  transform: translateY(14px);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.logo img {
+  height: 52px;
+  width: auto;
+  filter: var(--logo-filter);
+}
+.logo span {
+  white-space: nowrap;
+  font-size: var(--step--1);
+  color: var(--steel);
+  line-height: 1.25;
+}
+.nav {
+  display: flex;
+  gap: 22px;
+  margin-left: auto;
+}
+.nav a {
+  white-space: nowrap;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--steel);
+}
+.nav a:hover {
+  color: var(--ink);
+}
+.header-cta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.c-ico {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: #fff;
+  transition: transform 0.25s var(--ease-out);
+}
+.c-ico .ico {
+  width: 20px;
+  height: 20px;
+}
+.c-tg .c-ico {
+  background: linear-gradient(135deg, #37aee2, #1e96c8);
+}
+.c-wa .c-ico {
+  background: linear-gradient(135deg, #3ad26a, #1fa855);
+}
+.c-ph .c-ico {
+  background: var(--grad);
+}
+.c-vb .c-ico {
+  background: linear-gradient(135deg, #8f6af7, #665cac);
+}
+@media (max-width: 1480px) {
+  .nav {
+    gap: 16px;
+  }
+}
+@media (max-width: 1100px) {
+  .nav {
+    gap: 12px;
+  }
+  .header .wrap {
+    gap: 20px;
+  }
+}
+@media (max-width: 980px) {
+  .nav {
+    display: none;
+  }
+  .header-cta {
+    margin-left: auto;
+  }
+}

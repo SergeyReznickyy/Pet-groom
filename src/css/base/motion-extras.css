@@ -1,0 +1,111 @@
+/* ---------- motion extras ---------- */
+/* Inside revealed cards the icon, heading, text and link follow the card one after another. */
+.motion .section .reveal > :is(svg, h3, p, .link-tg) {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity 0.7s var(--ease-out),
+    transform 0.9s var(--ease-out);
+  transition-delay: calc(var(--delay, calc(var(--d, 0) * 90ms)) + 160ms);
+}
+.motion .section .reveal > svg {
+  transform: scale(0.6);
+}
+.motion .section .reveal > h3 {
+  transition-delay: calc(var(--delay, calc(var(--d, 0) * 90ms)) + 240ms);
+}
+.motion .section .reveal > p {
+  transition-delay: calc(var(--delay, calc(var(--d, 0) * 90ms)) + 330ms);
+}
+.motion .section .reveal > .link-tg {
+  transition-delay: calc(var(--delay, calc(var(--d, 0) * 90ms)) + 420ms);
+}
+.motion .section .reveal.is-in > :is(svg, h3, p, .link-tg) {
+  opacity: 1;
+  transform: none;
+}
+
+/* Buttons: lift on hover, press on tap, icon nudges toward the action. */
+.btn {
+  transition:
+    transform 0.2s var(--ease-out),
+    box-shadow 0.2s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    filter 0.15s ease;
+}
+.btn .ico {
+  transition: transform 0.25s var(--ease-out);
+}
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn:hover .ico {
+    transform: translateX(2px) rotate(-8deg);
+  }
+  .btn-line:hover {
+    box-shadow: 0 10px 22px -14px color-mix(in srgb, var(--tg) 60%, transparent);
+  }
+}
+.btn:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 0.08s;
+}
+.burger:active,
+.fab-main:active,
+.promo-btn:active {
+  transform: scale(0.92);
+}
+
+/* Telegram buttons: a light sweep on hover; the main booking buttons also shimmer every few seconds. */
+.btn-tg {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-tg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.38) 50%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .motion .btn-tg:hover::after {
+    animation: btn-shine 0.8s ease;
+  }
+}
+.motion :is(.hero-actions, .channels, .menu-contacts, .photo-cta) .btn-tg::after {
+  animation: btn-shine 4.8s ease-in-out 2.2s infinite;
+}
+@keyframes btn-shine {
+  0% {
+    transform: translateX(-120%);
+  }
+  22%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+/* Floating Telegram button: a soft ring pulses out now and then. */
+.motion .fab-main {
+  animation: fab-pulse 3.6s ease-out 1s infinite;
+}
+@keyframes fab-pulse {
+  0% {
+    box-shadow:
+      0 12px 28px -10px color-mix(in srgb, var(--tg) 70%, transparent),
+      0 0 0 0 color-mix(in srgb, var(--tg) 45%, transparent);
+  }
+  45%,
+  100% {
+    box-shadow:
+      0 12px 28px -10px color-mix(in srgb, var(--tg) 70%, transparent),
+      0 0 0 16px color-mix(in srgb, var(--tg) 0%, transparent);
+  }
+}

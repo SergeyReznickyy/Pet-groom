@@ -1,0 +1,222 @@
+/* ---------- hero ---------- */
+/* Full-viewport photo washed with the page colour on the left; the sticky header (72px + 1px border) floats over its top edge. */
+.hero {
+  --header-h: 73px;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: 100svh;
+  margin: calc(var(--header-h) * -1) calc(50% - 50vw) 0;
+  padding: calc(var(--header-h) + 56px) 20px 88px;
+  background: var(--tg-soft);
+}
+.hero-story {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  background: var(--tg-soft);
+}
+.scene {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.scene.is-on {
+  opacity: 1;
+}
+.hero-photo {
+  display: none;
+}
+@media (max-width: 760px) {
+  .hero-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 62% 40%;
+  }
+  .scene {
+    display: none;
+  }
+}
+.scene video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* some clips are mirrored so the animal sits on the right, clear of the headline */
+  transform: scaleX(var(--flip, 1));
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgb(var(--paper-rgb) / 0.75) 0, transparent 160px),
+    /* stops follow the text column (left edge of .wrap), not the viewport, so wide screens keep the copy on the light wash */
+    linear-gradient(
+      90deg,
+      rgb(var(--paper-rgb) / 0.88) 0,
+      rgb(var(--paper-rgb) / 0.8) calc(50% - var(--wrap) / 2 + 32rem),
+      rgb(var(--tint-rgb) / 0.45) calc(50% - var(--wrap) / 2 + 44rem),
+      transparent calc(50% - var(--wrap) / 2 + 58rem)
+    );
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 120px;
+  z-index: -1;
+  background: linear-gradient(180deg, transparent, var(--paper));
+}
+.hero .wrap {
+  width: 100%;
+}
+.hero-copy {
+  display: grid;
+  gap: 22px;
+  max-width: 38.75rem;
+}
+.hero h1 {
+  font-size: var(--step-4);
+  font-weight: 500;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--tg);
+}
+/* Copy is grouped (slogan + title + subtitle · lead · actions + hours · perks) so the block reads in a few glances. */
+.hero .subtitle {
+  font-size: var(--step-1);
+  font-weight: 500;
+  margin-top: -10px;
+}
+.hero .slogan {
+  justify-self: start;
+  margin-bottom: -6px;
+  padding: 0.35em 0.85em;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--tg);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.hero .slogan::before {
+  content: "✦ ";
+}
+.hero .lead {
+  font-size: 1rem;
+  color: var(--hero-muted);
+  max-width: 31em;
+}
+/* Secondary hero copy sits on moving video: a darker grey than --steel plus a soft light halo keeps it legible. */
+.hero {
+  --hero-muted: #463a5c;
+}
+.hero :is(.lead, .perks li, .subtitle) {
+  text-shadow:
+    0 0 10px rgb(var(--paper-rgb) / 0.9),
+    0 0 2px rgb(var(--paper-rgb) / 0.8);
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 6px;
+}
+/* The buttons live inside .hero-head (for the phone layout); on wider screens they still read after the lead. */
+.hero .lead {
+  order: 1;
+}
+.hero-actions {
+  order: 2;
+}
+.perks {
+  order: 4;
+}
+.hero .btn-line {
+  background: rgb(255 255 255 / 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.perks {
+  list-style: none;
+  padding: 18px 0 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  border-top: 1px solid rgb(var(--tg-rgb) / 0.18);
+}
+.perks li {
+  display: grid;
+  gap: 4px;
+  font-size: 0.875rem;
+  color: var(--hero-muted);
+  line-height: 1.45;
+}
+.perks b {
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+/* Narrow screens: the photo becomes a band under the header and fades into the text below. */
+@media (max-width: 900px) {
+  .hero {
+    min-height: 0;
+    align-items: start;
+    padding: 0 20px 48px;
+    background: var(--paper);
+  }
+  .hero-story {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    width: calc(100% + 40px);
+    height: min(58svh, 520px);
+    margin-inline: -20px;
+    -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent);
+    mask-image: linear-gradient(180deg, #000 70%, transparent);
+  }
+  .hero::before {
+    z-index: 1;
+    inset: 0 0 auto;
+    height: 160px;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(var(--paper-rgb) / 0.85), transparent);
+  }
+  .hero::after {
+    display: none;
+  }
+  .hero .wrap {
+    position: relative;
+    z-index: 2;
+    margin-top: 28px;
+  }
+}
+@media (max-width: 560px) {
+  .perks {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .hero-actions .btn {
+    flex: 1 1 100%;
+  }
+}
+
+html {
+  overflow-x: clip;
+}
+/* the phone photo is served as WebP with a JPG fallback; the <picture> wrapper must not affect the layout */
+.hero-story picture {
+  display: contents;
+}

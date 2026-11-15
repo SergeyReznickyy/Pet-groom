@@ -1,0 +1,38 @@
+/* works: links to the salon's social networks, each icon in its brand colour on hover */
+.socials .btn {
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.socials .s-ig:hover {
+  color: #d62976;
+  border-color: #d62976;
+}
+.socials .s-tt:hover,
+.socials .s-th:hover {
+  color: #000;
+  border-color: #000;
+}
+.masters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.masters article {
+  display: grid;
+  gap: 10px;
+}
+.masters .ph {
+  aspect-ratio: 4/5;
+  max-width: 100%;
+}
+.masters h3 {
+  font-family: var(--f-body);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+.masters p {
+  color: var(--steel);
+  font-size: 0.875rem;
+}

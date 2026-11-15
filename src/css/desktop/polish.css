@@ -1,0 +1,250 @@
+/* ---------- desktop polish (desktop audit, 2026-11-15); phones keep their own rules above ---------- */
+/* header booking button: tablets/desktop only (phones book through the burger menu) */
+.header-book {
+  padding: 0.75em 1.25em;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+}
+.footer-info,
+.footer-social,
+.faq-side {
+  display: none;
+}
+@media (max-width: 640px) {
+  .header .header-book {
+    display: none;
+  }
+}
+@media (min-width: 641px) {
+  /* 1. "Прокласти маршрут" back in the map's bottom-left corner (the shared .btn-tg rule had made it position: relative) */
+  .contacts .map .map-route {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+  }
+
+  /* 2. floating promo button steps aside over the closing block, contacts and footer */
+  html.float-off .promo-btn {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* 4. closing call-to-action: "Записатися" first, the channels as quieter buttons under it */
+  .final-or {
+    margin: 2px 0 -6px;
+    font-size: 0.875rem;
+  }
+
+  /* 5. contacts: one phone line with Viber / WhatsApp icons, the repeated rows hidden */
+  .contacts .m-merged {
+    display: none;
+  }
+  .ct-apps {
+    display: inline-flex;
+    gap: 8px;
+    margin-left: 12px;
+    vertical-align: middle;
+  }
+  .contacts dd a.ct-app {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    color: #fff;
+    transition: transform 0.2s var(--ease-out);
+  }
+  .contacts dd a.ct-app:hover {
+    color: #fff;
+    transform: translateY(-2px);
+  }
+  .ct-app.c-vb {
+    background: linear-gradient(135deg, #8f6af7, #665cac);
+  }
+  .ct-app.c-wa {
+    background: linear-gradient(135deg, #3ad26a, #1fa855);
+  }
+  .ct-app .ico {
+    width: 17px;
+    height: 17px;
+  }
+
+  /* 6. master badges: a square photo keeps the whole row (rope included) on one screen */
+  .is-badges .ph {
+    aspect-ratio: 5 / 4;
+  }
+
+  /* 8. "Чому обирають нас" icons in the same violet circles as "Спеціалізація" */
+  .why svg {
+    width: 44px;
+    height: 44px;
+    padding: 9px;
+    border-radius: 50%;
+    background: var(--grad);
+    stroke: #fff;
+    stroke-width: 2;
+  }
+
+  /* 9. the price picker grows with its step instead of reserving 360px */
+  .picker-body {
+    min-height: 0;
+  }
+
+  /* 12. nothing under 12px */
+  .badge-band,
+  .rod-top b,
+  .is-board .review small {
+    font-size: 0.75rem;
+  }
+
+  /* 13. footer: brand, contacts, socials, © */
+  .footer {
+    padding-bottom: 56px;
+  }
+  .footer .wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto auto;
+    column-gap: 48px;
+    row-gap: 10px;
+    align-items: start;
+  }
+  /* brand column: logo with the tagline under it */
+  .footer .wrap > img {
+    grid-area: 1 / 1;
+  }
+  .footer .wrap > span:first-of-type {
+    grid-area: 2 / 1;
+    max-width: 24ch;
+  }
+  .footer-info {
+    grid-area: 1 / 2 / 3 / 3;
+  }
+  .footer-social {
+    grid-area: 1 / 3 / 3 / 4;
+  }
+  .footer .wrap > span:last-child {
+    grid-area: 1 / 4 / 3 / 5;
+  }
+  .footer .wrap > a[href*="instagram"] {
+    display: none; /* Instagram sits with the other socials */
+  }
+  .footer-info,
+  .footer-social {
+    display: grid;
+    gap: 6px;
+    color: var(--steel);
+  }
+  .footer-info b,
+  .footer-social b {
+    color: var(--ink);
+    font-size: 0.875rem;
+  }
+  .footer-info a {
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .footer-social div {
+    display: flex;
+    gap: 8px;
+  }
+  .footer-social a {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+  }
+  .footer-social a:hover {
+    border-color: var(--tg);
+    color: var(--tg);
+  }
+  .footer-social .ico {
+    width: 18px;
+    height: 18px;
+  }
+}
+@media (min-width: 761px) {
+  /* 3. no bubble over the content: the header "Акції" link lights up once instead (see the script) */
+  .promo-teaser {
+    display: none !important;
+  }
+  .nav .nav-promo.is-hint {
+    margin: -5px -10px;
+    padding: 5px 10px;
+    border-radius: 99px;
+    animation: nav-hint 1.4s ease-in-out 3;
+  }
+  @keyframes nav-hint {
+    0%,
+    100% {
+      background-color: transparent;
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--promo) 0%, transparent);
+    }
+    50% {
+      background-color: color-mix(in srgb, var(--promo) 12%, transparent);
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--promo) 12%, transparent);
+    }
+  }
+}
+@media (min-width: 901px) {
+  /* 7. the steps ride along beside the (taller) online form */
+  .how-grid > div:first-child {
+    position: sticky;
+    top: 110px;
+    align-self: start;
+  }
+  /* 10. FAQ: a sticky side card next to the questions replaces the small line under them */
+  .faq-layout {
+    display: grid;
+    /* the side card keeps at least 270px; the questions give way on narrower screens */
+    grid-template-columns: minmax(0, 52rem) minmax(270px, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .faq-side {
+    position: sticky;
+    top: 110px;
+    display: grid;
+    justify-items: start;
+    gap: 10px;
+    padding: 28px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--tint-a) 0%, var(--tint-b) 100%);
+    border: 1px solid var(--line);
+  }
+  .faq-side h3 {
+    font-size: var(--step-1);
+  }
+  .faq-side p {
+    color: var(--steel);
+    font-size: 0.9375rem;
+  }
+  .faq-side .btn {
+    margin-top: 6px;
+  }
+  .faq-side-ico {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--grad);
+    color: var(--on-tg);
+    box-shadow: 0 10px 22px -10px rgb(var(--tg-rgb) / 0.7);
+  }
+  .faq-side-ico .ico {
+    width: 22px;
+    height: 22px;
+  }
+  #faq .row-end {
+    display: none;
+  }
+}

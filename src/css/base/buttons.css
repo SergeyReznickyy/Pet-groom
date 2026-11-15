@@ -1,0 +1,55 @@
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  justify-content: center;
+  font: 600 var(--step-0)/1 var(--f-body);
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0.95em 1.4em;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn-tg {
+  background: var(--grad);
+  color: var(--on-tg);
+  box-shadow: 0 12px 26px -12px rgb(var(--tg-rgb) / 0.7);
+}
+.btn-tg:hover {
+  filter: brightness(1.07);
+  box-shadow: 0 16px 30px -12px rgb(var(--tg-rgb) / 0.75);
+}
+.btn-line {
+  border-color: var(--line);
+  color: var(--ink);
+  background: var(--surface);
+}
+.btn-line:hover {
+  border-color: var(--tg);
+  color: var(--tg);
+}
+.btn-lg {
+  font-size: 1.0625rem;
+  padding: 1.1em 1.6em;
+}
+.link-tg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--tg);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9375rem;
+}
+.link-tg:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

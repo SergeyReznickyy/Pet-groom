@@ -1,0 +1,26 @@
+/* Blog on phones: a 3D cover-flow row (see the script) — the centred card faces you, its neighbours turn away. */
+@media (max-width: 640px) {
+  /* the row spans the full screen width, so 70vw cards with 15vw side padding let the first and last card centre too */
+  #blog .posts.is-flow {
+    grid-auto-columns: 70vw;
+    gap: 10px;
+    padding-inline: 15vw;
+    scroll-padding-inline: 0;
+    padding-block: 10px 18px;
+  }
+  /* solid cards, so the centred one fully covers the neighbours peeking from behind */
+  #blog .is-flow .post-card {
+    scroll-snap-align: center;
+    transform-origin: 50% 50%;
+    will-change: transform, opacity;
+    align-content: start;
+    padding: 10px 10px 18px;
+    border-radius: 22px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: 0 18px 40px -20px rgb(var(--shadow-rgb) / 0.4);
+  }
+  #blog .is-flow .post-card > :not(.cover) {
+    margin-inline: 6px;
+  }
+}

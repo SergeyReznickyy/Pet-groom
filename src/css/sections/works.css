@@ -1,0 +1,204 @@
+/* wireframe placeholders */
+.ph {
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius);
+  color: var(--steel);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 0.8125rem;
+  padding: 12px;
+  background: repeating-linear-gradient(
+    135deg,
+    transparent 0 10px,
+    color-mix(in srgb, var(--line) 35%, transparent) 10px 20px
+  );
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 620px) {
+  .gallery {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* the cards slide in from the sides on scroll (see the script); keep them from widening the page meanwhile */
+#works {
+  overflow-x: clip;
+}
+
+/* Before/after slider: the "before" photo sits on top and is clipped at --pos; the handle marks the cut. */
+.ba {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+.ba figcaption {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+.ba-frame {
+  --pos: 50%;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius);
+  cursor: ew-resize;
+  /* horizontal drags move the slider, vertical swipes still scroll the page */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.ba-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  pointer-events: none;
+}
+.ba-img.ph {
+  border: 0;
+}
+.ba-after.ph {
+  background-color: var(--tg-soft);
+}
+.ba-before.ph {
+  background-color: color-mix(in srgb, var(--steel) 22%, var(--surface));
+}
+/* placeholder captions sit on their own side so they don't overlap at the cut */
+.ba-before.ph {
+  place-items: center start;
+  padding-left: 14%;
+}
+.ba-after.ph {
+  place-items: center end;
+  padding-right: 14%;
+}
+.ba-before {
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+}
+.ba-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 2px;
+  margin-left: -1px;
+  background: #fff;
+  box-shadow: 0 0 6px rgb(0 0 0 / 0.25);
+  pointer-events: none;
+}
+.ba-handle {
+  position: absolute;
+  top: 50%;
+  left: var(--pos);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--tg);
+  box-shadow: 0 4px 14px rgb(var(--ink-rgb) / 0.3);
+  pointer-events: none;
+  transition: transform 0.2s var(--ease-out);
+}
+.ba-handle svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ba-frame:hover .ba-handle,
+.ba-frame.is-dragging .ba-handle {
+  transform: scale(1.1);
+}
+.ba-tag {
+  position: absolute;
+  top: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgb(var(--ink-rgb) / 0.6);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+.ba-tag-before {
+  left: 12px;
+}
+.ba-tag-after {
+  right: 12px;
+}
+/* the range input is for keyboard and screen readers; pointer dragging is handled by the frame */
+.ba-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.ba-frame:has(.ba-range:focus-visible) {
+  outline: 2px solid var(--tg);
+  outline-offset: 3px;
+}
+.specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.specs article {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--tg) 7%, var(--surface));
+  border: 1.5px solid color-mix(in srgb, var(--tg) 22%, transparent);
+}
+.specs svg {
+  width: 44px;
+  height: 44px;
+  padding: 9px;
+  border-radius: 50%;
+  background: var(--grad);
+  color: var(--on-tg);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.specs h3 {
+  font-size: var(--step-1);
+}
+.specs p {
+  color: var(--steel);
+}
+@media (max-width: 900px) {
+  .specs {
+    grid-template-columns: 1fr;
+  }
+}
+.certs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.certs .ph {
+  aspect-ratio: 3 / 4;
+}

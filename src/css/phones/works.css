@@ -1,0 +1,39 @@
+/* phones: invisible grip around the slider handle; only it drags, so the rest of the photo still scrolls the row */
+.ba-grip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  z-index: 2;
+  width: 64px;
+  margin-left: -32px;
+  touch-action: none;
+}
+/* phones only: tells that the drifting works open in the viewer */
+.works-tap {
+  display: none;
+}
+@media (max-width: 640px) {
+  .works-tap {
+    display: block;
+    margin-top: 10px;
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+}
+/* phones: the label on its own line, the three social buttons smaller and in one row */
+@media (max-width: 640px) {
+  .socials {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px 8px;
+  }
+  .socials small {
+    grid-column: 1 / -1;
+  }
+  .socials .btn {
+    gap: 0.4em;
+    padding: 0.7em 0.4em;
+    font-size: 0.875rem;
+  }
+}

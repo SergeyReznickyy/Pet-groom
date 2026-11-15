@@ -1,0 +1,206 @@
+/* ---------- blog ---------- */
+/* Post cards: on the home page (#blog) and on blog/index.html. */
+.posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.post-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  text-decoration: none;
+}
+.post-card .ph,
+.post-card .cover,
+.post-card img {
+  aspect-ratio: 16/10;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.post-card time {
+  font-size: var(--step--1);
+  color: var(--steel);
+}
+.post-card h3 {
+  font-family: var(--f-body);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.post-card p {
+  color: var(--steel);
+  font-size: 0.9375rem;
+}
+a.post-card:hover h3 {
+  color: var(--tg);
+}
+@media (max-width: 900px) {
+  .posts {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .posts {
+    grid-template-columns: 1fr;
+  }
+  /* home page: a swipeable row instead of three tall cards */
+  #blog .posts {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: -20px;
+    padding-inline: 20px;
+    scroll-padding-inline: 20px;
+  }
+  #blog .post-card {
+    scroll-snap-align: start;
+  }
+}
+
+/* Inner pages (blog list, article): no hero, so the content starts right under the header. */
+.page {
+  padding-block: 48px 72px;
+}
+.crumbs {
+  font-size: var(--step--1);
+  color: var(--steel);
+  margin-bottom: 20px;
+}
+.crumbs a {
+  text-decoration: none;
+}
+.crumbs a:hover {
+  color: var(--tg);
+}
+.page-head {
+  display: grid;
+  gap: 12px;
+  max-width: 46rem;
+  margin-bottom: 40px;
+}
+.page-head h1 {
+  font-size: var(--step-4);
+}
+.page-head p {
+  color: var(--steel);
+  font-size: 1.0625rem;
+}
+
+/* Article: a readable text column. */
+.post {
+  max-width: 44rem;
+  margin-inline: auto;
+}
+.post h1 {
+  font-size: var(--step-4);
+  margin-bottom: 12px;
+}
+.post-meta {
+  font-size: var(--step--1);
+  color: var(--steel);
+}
+/* Illustrated covers until real photos arrive: a soft gradient with a large line icon. */
+.cover {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: var(--tg);
+  background:
+    radial-gradient(circle at 78% 18%, rgb(255 255 255 / 0.75) 0 12%, transparent 13%),
+    radial-gradient(circle at 12% 88%, rgb(255 255 255 / 0.5) 0 16%, transparent 17%),
+    linear-gradient(135deg, var(--tg-soft), var(--tint-e));
+  transition: transform 0.4s var(--ease-out);
+}
+.cover-2 {
+  color: var(--promo);
+  background:
+    radial-gradient(circle at 80% 80%, rgb(255 255 255 / 0.7) 0 14%, transparent 15%),
+    radial-gradient(circle at 15% 20%, rgb(255 255 255 / 0.5) 0 10%, transparent 11%),
+    linear-gradient(135deg, #fff0f4, #fbd3df);
+}
+.cover-3 {
+  color: #3d6fd6;
+  background:
+    radial-gradient(circle at 20% 22%, rgb(255 255 255 / 0.7) 0 13%, transparent 14%),
+    radial-gradient(circle at 85% 85%, rgb(255 255 255 / 0.5) 0 15%, transparent 16%),
+    linear-gradient(135deg, #eef3ff, #cfdcfb);
+}
+.cover svg {
+  width: 30%;
+  max-width: 120px;
+  height: auto;
+  fill: currentColor;
+  opacity: 0.85;
+}
+.cover svg.stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+a.post-card:hover .cover {
+  transform: scale(1.02);
+}
+.post-more {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1.5px dashed var(--line);
+}
+.post-more h2 {
+  font-size: var(--step-2);
+  margin-bottom: 20px;
+}
+.post-more .posts {
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 560px) {
+  .post-more .posts {
+    grid-template-columns: 1fr;
+  }
+}
+.post-cover {
+  aspect-ratio: 16/9;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-block: 28px;
+}
+.post-body {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.post-body > * + * {
+  margin-top: 1em;
+}
+.post-body h2 {
+  font-size: var(--step-2);
+  margin-top: 1.8em;
+}
+.post-body ul,
+.post-body ol {
+  padding-left: 1.3em;
+}
+.post-body li + li {
+  margin-top: 0.35em;
+}
+.post-cta {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  margin-top: 48px;
+  padding: 28px;
+  border-radius: var(--radius);
+  background: var(--tg-soft);
+}
+.post-cta h2 {
+  font-size: var(--step-2);
+}
+.post-cta .channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}

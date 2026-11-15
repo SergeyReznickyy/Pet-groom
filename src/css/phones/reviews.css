@@ -1,0 +1,38 @@
+/* Reviews on phones: compact note cards (the cork board itself is styled with .is-board). */
+@media (max-width: 640px) {
+  .reviews {
+    align-items: start;
+  }
+  .review {
+    gap: 8px;
+    padding: 16px;
+  }
+  .review-ava {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  .review header b {
+    font-size: 0.9375rem;
+  }
+  .review-stars {
+    font-size: 0.8125rem;
+  }
+  .review p {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+  }
+  .review.is-open p {
+    display: block;
+    -webkit-line-clamp: unset;
+    line-clamp: none;
+  }
+  .review small {
+    font-size: 0.6875rem;
+  }
+}

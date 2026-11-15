@@ -1,0 +1,123 @@
+/* ---------- motion ---------- */
+/* Only active with html.motion (set in <head> unless the visitor prefers reduced motion). */
+.motion .reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  filter: blur(8px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1.2s var(--ease-out),
+    filter 0.9s var(--ease-out);
+  transition-delay: var(--delay, calc(var(--d, 0) * 90ms));
+}
+.motion .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+/* headlines: the container stays put, words rise out of a mask instead */
+.motion .reveal.words {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+.motion .words .w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* room for descenders (у, р, д) so the mask doesn't clip them */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.motion .words .w > span {
+  display: inline-block;
+  transform: translate3d(0, 112%, 0) rotate(5deg);
+  transform-origin: 0 100%;
+  transition: transform 1.25s var(--ease-out);
+  transition-delay: calc(var(--delay, 0ms) + var(--i) * 55ms);
+}
+.motion .sec-head h2.words .w > span,
+.motion .final h2.words .w > span {
+  transition-delay: calc(var(--d, 0) * 90ms + var(--i) * 45ms);
+}
+.motion .words.is-in .w > span {
+  transform: none;
+}
+/* a single light sweep across the violet part of the hero headline once it has landed */
+.motion .hero h1 em .w > span {
+  background: linear-gradient(
+      100deg,
+      var(--tg) 0%,
+      var(--tg) 40%,
+      var(--tg-glow) 50%,
+      var(--tg) 60%,
+      var(--tg) 100%
+    )
+    0 0 / 250% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-position: 100% 0;
+}
+.motion .hero h1.is-in em .w > span {
+  animation: headline-sheen 1.6s var(--ease-out) forwards;
+  animation-delay: calc(1300ms + var(--i) * 70ms);
+}
+@keyframes headline-sheen {
+  to {
+    background-position: 0 0;
+  }
+}
+/* header slides down instead of up */
+.motion .header.reveal {
+  transform: translate3d(0, -16px, 0);
+  filter: none;
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1.2s var(--ease-out),
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+.motion .header.reveal.is-in {
+  transform: none;
+}
+/* eyebrows tighten their tracking as they appear */
+.motion .eyebrow.reveal {
+  letter-spacing: 0.32em;
+  transition-property: opacity, transform, filter, letter-spacing;
+  transition-duration: 0.9s, 1.2s, 0.9s, 1.4s;
+}
+.motion .eyebrow.reveal.is-in {
+  letter-spacing: 0.12em;
+}
+/* price picker: tiles cascade in on every step */
+.motion .step-view .tile,
+.motion .step-view .svc-opt,
+.motion .step-view .extra {
+  animation: tile-in 0.7s var(--ease-out) both;
+}
+.motion .step-view .tile:nth-child(2),
+.motion .step-view .svc-opt:nth-child(2),
+.motion .step-view .extra:nth-child(2) {
+  animation-delay: 40ms;
+}
+.motion .step-view .tile:nth-child(3),
+.motion .step-view .svc-opt:nth-child(3),
+.motion .step-view .extra:nth-child(3) {
+  animation-delay: 80ms;
+}
+.motion .step-view .tile:nth-child(4),
+.motion .step-view .svc-opt:nth-child(4),
+.motion .step-view .extra:nth-child(4) {
+  animation-delay: 120ms;
+}
+.motion .step-view .tile:nth-child(n + 5),
+.motion .step-view .extra:nth-child(n + 5) {
+  animation-delay: 160ms;
+}
+@keyframes tile-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.98);
+  }
+}

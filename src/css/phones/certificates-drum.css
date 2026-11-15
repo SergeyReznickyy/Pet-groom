@@ -1,0 +1,72 @@
+/* Certificates on phones as a 3D drum carousel (see the script). */
+@media (max-width: 640px) {
+  .certs.is-drum {
+    position: relative; /* faces measure their offsetLeft from the drum (see the script) */
+    /* the faces' z-index (front one on top) stays inside the drum, so the sticky header always covers it */
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    /* full screen width (100vw): a 58vw face with 21vw either side sits in the middle */
+    grid-auto-columns: 58vw;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: -20px;
+    padding: 12px 21vw 70px; /* the bottom room holds the reflections */
+    scroll-padding-inline: 21vw;
+  }
+  .certs.is-drum::-webkit-scrollbar {
+    display: none;
+  }
+  .drum-face {
+    scroll-snap-align: center;
+    position: relative;
+  }
+  .drum-card {
+    transform-origin: 50% 50%;
+    will-change: transform;
+    /* a faint mirror image under each certificate */
+    -webkit-box-reflect: below 6px linear-gradient(transparent 72%, rgb(255 255 255 / 0.28));
+  }
+  .drum-card > :first-child {
+    aspect-ratio: 3 / 4;
+    background-color: var(--surface);
+    border-style: solid;
+    box-shadow: 0 18px 30px -18px rgb(var(--shadow-rgb) / 0.5);
+    transition: box-shadow 0.3s;
+  }
+  .drum-face.is-front .drum-card > :first-child {
+    border-color: color-mix(in srgb, var(--tg) 35%, var(--line));
+    box-shadow: 0 26px 40px -20px rgb(var(--shadow-rgb) / 0.6);
+  }
+  .is-drum + .cert-dots {
+    margin-top: -46px; /* sit over the reflections' faded tail */
+    position: relative;
+  }
+}
+
+/* Position dots under the phone carousels (certificates, reviews). */
+@media (max-width: 640px) {
+  .cert-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .cert-dots i {
+    width: 7px;
+    height: 7px;
+    border-radius: 99px;
+    background: var(--line);
+    transition:
+      width 0.3s var(--ease-out),
+      background-color 0.3s;
+  }
+  .cert-dots i.is-on {
+    width: 22px;
+    background: var(--tg);
+  }
+}

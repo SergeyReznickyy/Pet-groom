@@ -1,0 +1,34 @@
+/* Entry point: the build (build.mjs) bundles these files in this exact order into assets/css/styles.min.css.
+   The order is the cascade order — later files override earlier ones, so keep it when adding files. */
+@import "./base/tokens.css";
+@import "./base/buttons.css";
+@import "./components/header.css";
+@import "./sections/hero.css";
+@import "./base/layout.css";
+@import "./sections/services.css";
+@import "./sections/steps-why.css";
+@import "./sections/works.css";
+@import "./sections/certificates.css";
+@import "./sections/works-socials.css";
+@import "./sections/masters.css";
+@import "./sections/reviews.css";
+@import "./sections/faq.css";
+@import "./sections/final-cta.css";
+@import "./sections/contacts-footer.css";
+@import "./components/floating-promo.css";
+@import "./base/motion.css";
+@import "./phones/general.css";
+@import "./phones/hero.css";
+@import "./components/burger-menu.css";
+@import "./base/motion-extras.css";
+@import "./sections/blog.css";
+@import "./phones/works.css";
+@import "./phones/masters-stories.css";
+@import "./phones/reviews.css";
+@import "./phones/certificates-drum.css";
+@import "./phones/blog.css";
+@import "./components/booking-modal.css";
+@import "./components/booking-form.css";
+@import "./phones/polish.css";
+@import "./desktop/polish.css";
+@import "./phones/footer.css";

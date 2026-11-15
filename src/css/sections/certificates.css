@@ -1,0 +1,144 @@
+/* Scrolls that unroll (tablet/desktop, see the script): violet rods with gold knobs at the top
+   and bottom; the bottom rod starts next to the top one and rolls down, uncovering the diploma. */
+.certs.is-scrolls {
+  gap: 48px;
+  padding-block: 14px;
+}
+.is-scrolls .cert {
+  position: relative;
+}
+.is-scrolls .cert > :first-child {
+  background-color: #fffdf8;
+  border-radius: 4px;
+  border-style: solid;
+  box-shadow: 0 18px 30px -20px rgb(var(--shadow-rgb) / 0.45);
+}
+.rod {
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--tg-lite) 0%, var(--tg-b) 45%, var(--tg-c) 100%);
+  box-shadow: 0 6px 10px -4px rgb(var(--ink-rgb) / 0.45);
+  z-index: 1;
+}
+/* gold knobs on both ends */
+.rod::before,
+.rod::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  width: 14px;
+  height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #f6dc9a, #c9973f 55%, #8f6420);
+}
+.rod::before {
+  left: -8px;
+}
+.rod::after {
+  right: -8px;
+}
+.rod-top {
+  top: -11px;
+  height: 20px;
+  border-radius: 10px;
+}
+.rod-top::before,
+.rod-top::after {
+  top: -2px;
+  height: 24px;
+}
+/* the salon's name engraved in gold on the top rod */
+.rod-top b {
+  font: 800 0.6875rem/1 var(--f-body);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-left: 0.3em; /* balances the trailing letter-spacing so the word sits centred */
+  background: linear-gradient(180deg, #fff8dc 0%, #f7d27a 50%, #e0a93f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 0 rgb(var(--ink-rgb) / 0.45));
+}
+.rod-bottom {
+  top: calc(100% - 7px);
+}
+/* while rolled up: the bottom rod waits under the top one and the paper is hidden */
+.motion .is-scrolls.s-wait .cert > :first-child {
+  clip-path: inset(0 0 100% 0);
+}
+.motion .is-scrolls.s-wait .rod-bottom {
+  top: 7px;
+}
+.motion .is-scrolls.s-wait .cert {
+  opacity: 0;
+  translate: 0 -24px;
+}
+.motion .is-scrolls.s-in .cert {
+  animation: scroll-appear 0.5s var(--ease-out) forwards;
+  animation-delay: calc(var(--k) * 0.3s);
+}
+.motion .is-scrolls.s-in .cert > :first-child {
+  animation: scroll-paper 1.35s cubic-bezier(0.6, 0, 0.3, 1) forwards;
+  animation-delay: calc(0.45s + var(--k) * 0.3s);
+}
+.motion .is-scrolls.s-in .rod-bottom {
+  animation: scroll-rod 1.35s cubic-bezier(0.6, 0, 0.3, 1) forwards;
+  animation-delay: calc(0.45s + var(--k) * 0.3s);
+}
+@keyframes scroll-appear {
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes scroll-paper {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+/* the rod rolls down right on the paper's edge (same timing as the paper) */
+@keyframes scroll-rod {
+  from {
+    top: 7px;
+  }
+  to {
+    top: calc(100% - 7px);
+  }
+}
+.cert {
+  position: relative;
+  rotate: var(--tilt, 0deg);
+}
+.cert > :first-child {
+  height: 100%;
+  background-color: var(--surface);
+  box-shadow:
+    0 1px 2px rgb(var(--shadow-rgb) / 0.08),
+    0 16px 30px -18px rgb(var(--shadow-rgb) / 0.4);
+}
+
+@media (max-width: 900px) {
+  .certs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.row-end {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+  margin-top: 24px;
+}
+.row-end small {
+  color: var(--steel);
+}

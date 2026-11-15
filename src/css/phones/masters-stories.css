@@ -1,0 +1,199 @@
+/* Masters on phones as Instagram-like stories (see the script). */
+@media (max-width: 640px) {
+  .masters.is-stories {
+    display: block;
+    overflow: visible;
+    margin-inline: 0;
+    padding: 0;
+    position: relative;
+  }
+  .st-stage {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    max-height: 72svh;
+    width: 100%;
+    border-radius: 22px;
+    overflow: hidden;
+    perspective: 1100px;
+    background: var(--ink);
+    box-shadow: 0 30px 60px -30px rgb(var(--shadow-rgb) / 0.6);
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+  }
+  .masters .st-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 0 18px 20px;
+    color: #fff;
+    visibility: hidden;
+    isolation: isolate; /* keeps the photo (z-index: -1) inside its own slide */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .masters .st-slide.is-on,
+  .masters .st-slide.st-out-l,
+  .masters .st-slide.st-out-r {
+    visibility: visible;
+  }
+  /* the photo fills the frame; a dark fade keeps the header and the caption readable */
+  .masters .st-slide .ph {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    aspect-ratio: auto;
+    border: 0;
+    border-radius: 0;
+    color: rgb(255 255 255 / 0.55);
+    background:
+      linear-gradient(180deg, rgb(20 10 40 / 0.55) 0%, transparent 22%, transparent 48%, rgb(20 10 40 / 0.85) 100%),
+      repeating-linear-gradient(135deg, #5a3a8a 0 14px, #4f3280 14px 28px);
+  }
+  .masters .st-slide h3 {
+    font-family: var(--f-display);
+    font-size: 1.5rem;
+    color: #fff;
+  }
+  .masters .st-slide p {
+    color: rgb(255 255 255 / 0.85);
+    font-size: 0.9375rem;
+  }
+  .masters .st-slide .link-tg {
+    align-self: flex-start;
+    margin-top: 8px;
+    padding: 11px 18px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--tg-deep);
+    font-size: 0.875rem;
+    box-shadow: 0 8px 18px -8px rgb(0 0 0 / 0.5);
+  }
+  .st-top {
+    position: absolute;
+    top: 24px;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .st-ava {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #fff;
+    /* the Instagram-style ring, in the brand gradient */
+    box-shadow:
+      0 0 0 2px var(--ink),
+      0 0 0 4px var(--tg-hi);
+  }
+  .st-ava img {
+    width: 28px;
+    height: auto;
+  }
+  .st-top b {
+    display: block;
+    font-size: 0.875rem;
+  }
+  .st-top small {
+    display: block;
+    font-size: 0.6875rem;
+    opacity: 0.8;
+  }
+  /* progress bars */
+  .st-bars {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    right: 12px;
+    z-index: 2;
+    display: flex;
+    gap: 4px;
+    pointer-events: none;
+  }
+  .st-bars i {
+    flex: 1;
+    height: 3px;
+    border-radius: 3px;
+    background: rgb(255 255 255 / 0.35);
+    overflow: hidden;
+  }
+  .st-bars b {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: #fff;
+  }
+  .st-bars .is-done b {
+    width: 100%;
+  }
+  .st-bars .is-now b {
+    animation: st-fill var(--story-ms, 5s) linear forwards;
+  }
+  .is-stories.is-paused .st-bars .is-now b {
+    animation-play-state: paused;
+  }
+  /* without motion the bars don't run: the current one is simply shown full */
+  html:not(.motion) .st-bars .is-now b {
+    width: 100%;
+    animation: none;
+  }
+  @keyframes st-fill {
+    to {
+      width: 100%;
+    }
+  }
+  .st-hint {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--steel);
+  }
+  /* cube turn between masters: the old face hinges away on one edge while the new one swings in on the other */
+  .st-out-l {
+    transform-origin: 100% 50%;
+    animation: st-out-l 0.55s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+  }
+  .st-in-r {
+    transform-origin: 0% 50%;
+    animation: st-in-r 0.55s cubic-bezier(0.45, 0, 0.25, 1);
+  }
+  .st-out-r {
+    transform-origin: 0% 50%;
+    animation: st-out-r 0.55s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+  }
+  .st-in-l {
+    transform-origin: 100% 50%;
+    animation: st-in-l 0.55s cubic-bezier(0.45, 0, 0.25, 1);
+  }
+  @keyframes st-out-l {
+    to {
+      transform: translateX(-100%) rotateY(-90deg);
+      visibility: hidden;
+    }
+  }
+  @keyframes st-in-r {
+    from {
+      transform: translateX(100%) rotateY(90deg);
+    }
+  }
+  @keyframes st-out-r {
+    to {
+      transform: translateX(100%) rotateY(90deg);
+      visibility: hidden;
+    }
+  }
+  @keyframes st-in-l {
+    from {
+      transform: translateX(-100%) rotateY(-90deg);
+    }
+  }
+}

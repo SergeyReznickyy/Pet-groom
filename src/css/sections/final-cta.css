@@ -1,0 +1,31 @@
+/* final cta */
+.final {
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  max-width: var(--wrap);
+  margin: 0 auto var(--sec-y);
+  padding: 80px 24px;
+  border-radius: 32px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 50% 0%, var(--tint-c) 0%, transparent 65%),
+    linear-gradient(180deg, var(--tint-d) 0%, var(--surface) 100%);
+}
+.final h2 {
+  font-size: var(--step-4);
+  max-width: 16ch;
+}
+.final p {
+  color: var(--steel);
+  max-width: 34em;
+  font-size: 1.0625rem;
+}
+.channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  padding-top: 8px;
+}

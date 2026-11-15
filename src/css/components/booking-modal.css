@@ -1,0 +1,324 @@
+/* ---------- booking: messenger picker modal (built in common.js) ---------- */
+.book-modal {
+  width: min(420px, calc(100% - 32px));
+  max-height: calc(100% - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 30px 80px -20px color-mix(in srgb, var(--ink) 60%, transparent);
+  overflow: auto;
+}
+.book-modal::backdrop {
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+  backdrop-filter: blur(4px);
+}
+.motion .book-modal[open] {
+  animation: promo-in 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+.book-head {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  padding: 28px 64px 24px 24px;
+  color: var(--on-tg);
+  background: var(--grad);
+}
+.book-head .eyebrow {
+  color: inherit;
+  opacity: 0.85;
+}
+.book-head h2 {
+  font-size: var(--step-2);
+}
+.book-sub {
+  font-size: 0.9375rem;
+  opacity: 0.9;
+}
+.book-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 14px;
+  list-style: none;
+}
+.book-list a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    border-color 0.2s,
+    transform 0.2s var(--ease-out);
+}
+.book-list a:hover,
+.book-list a:focus-visible {
+  border-color: var(--tg);
+  transform: translateX(3px);
+}
+.book-list a:hover .c-ico {
+  transform: scale(1.08) rotate(-4deg);
+}
+.book-list .c-ico {
+  width: 44px;
+  height: 44px;
+}
+.book-list b {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.book-list small {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--steel);
+}
+.book-note {
+  margin: 0 20px 18px;
+  font-size: 0.8125rem;
+  color: var(--steel);
+}
+
+.book-alt {
+  padding: 0 14px 16px;
+}
+.book-alt[hidden] {
+  display: none;
+}
+.book-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 2px 6px 10px;
+  font-size: 0.8125rem;
+  color: var(--steel);
+}
+.book-or::before,
+.book-or::after {
+  content: "";
+  flex: 1;
+  border-top: 1.5px dashed var(--line);
+}
+.book-form-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1.5px dashed color-mix(in srgb, var(--tg) 45%, transparent);
+  background: var(--tg-soft);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    border-color 0.2s,
+    transform 0.2s var(--ease-out);
+}
+.book-form-link:hover,
+.book-form-link:focus-visible {
+  border-color: var(--tg);
+  border-style: solid;
+  transform: translateX(3px);
+}
+.book-form-link .c-ico {
+  width: 44px;
+  height: 44px;
+  background: var(--grad);
+}
+.book-form-link .c-ico .ico {
+  fill: none;
+}
+.book-form-link b {
+  display: block;
+  font-weight: 700;
+}
+.book-form-link small {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--steel);
+}
+.book-chev {
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  flex: none;
+  fill: none;
+  stroke: var(--tg);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* one-time entrance (see the script): the card pops up tilted, fields drop in one by one, a light sweeps across, the button bounces */
+.book-form {
+  position: relative;
+  overflow: hidden;
+}
+.motion .book-form.bf-wait {
+  opacity: 0;
+  transform: perspective(1200px) translateY(90px) rotateX(22deg) scale(0.9);
+  transform-origin: 50% 100%;
+}
+.motion .book-form.bf-wait > * {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.motion .book-form.bf-in {
+  animation: bf-pop 0.95s cubic-bezier(0.2, 0.9, 0.3, 1.15) forwards;
+}
+.motion .book-form.bf-in > * {
+  animation: bf-field 0.55s var(--ease-out) forwards;
+  animation-delay: calc(0.35s + var(--k) * 75ms);
+}
+.motion .book-form.bf-in > .btn {
+  animation:
+    bf-field 0.55s var(--ease-out) forwards calc(0.35s + var(--k) * 75ms),
+    bf-bounce 0.7s ease-in-out calc(1.1s + var(--k) * 75ms);
+}
+.motion .book-form.bf-in::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.75) 50%, transparent 65%);
+  transform: translateX(-100%);
+  animation: bf-sweep 1.1s ease-in-out 0.8s forwards;
+}
+@keyframes bf-pop {
+  0% {
+    opacity: 0;
+    transform: perspective(1200px) translateY(90px) rotateX(22deg) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes bf-field {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes bf-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes bf-bounce {
+  0%,
+  100% {
+    transform: none;
+  }
+  35% {
+    transform: translateY(-6px) scale(1.03);
+  }
+  65% {
+    transform: translateY(1px) scale(0.99);
+  }
+}
+/* the form glows for a moment when the visitor arrives from the booking modal */
+.book-form.is-called {
+  animation: form-called 1.8s ease-out 0.4s;
+}
+@keyframes form-called {
+  0%,
+  100% {
+    box-shadow: var(--shadow);
+  }
+  30% {
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--tg) 35%, transparent),
+      var(--shadow);
+  }
+}
+
+/* Phones: the booking modal is a full-width sheet sliding up from the bottom, compact enough to fit any phone
+   without scrolling: messengers as a 2×2 grid of tiles (3 in a row when the call option is hidden). */
+@media (max-width: 640px) {
+  .book-modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto 0 0;
+    border-radius: 24px 24px 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .motion .book-modal[open] {
+    animation: sheet-up 0.4s var(--ease-out);
+  }
+  .book-head {
+    gap: 2px;
+    padding: 16px 60px 14px 18px;
+  }
+  .book-head .eyebrow {
+    font-size: 0.6875rem;
+  }
+  .book-head h2 {
+    font-size: 1.375rem;
+  }
+  .book-sub {
+    font-size: 0.8125rem;
+  }
+  .book-head .promo-close {
+    top: 10px;
+    right: 10px;
+  }
+  .book-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 12px 12px 10px;
+  }
+  .book-list:has(li[hidden]) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .book-list a {
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    height: 100%;
+    padding: 12px 6px 10px;
+    text-align: center;
+  }
+  .book-list a:hover,
+  .book-list a:focus-visible {
+    transform: none;
+  }
+  .book-list .c-ico {
+    width: 40px;
+    height: 40px;
+  }
+  .book-list small {
+    font-size: 0.6875rem;
+    line-height: 1.3;
+  }
+  .book-alt {
+    padding: 0 12px 12px;
+  }
+  .book-or {
+    margin: 0 6px 8px;
+  }
+  .book-form-link {
+    padding: 10px 12px;
+  }
+  .book-form-link .c-ico {
+    width: 40px;
+    height: 40px;
+  }
+  .book-note {
+    margin: 0 16px 14px;
+    font-size: 0.75rem;
+  }
+}
+@keyframes sheet-up {
+  from {
+    translate: 0 100%;
+  }
+}

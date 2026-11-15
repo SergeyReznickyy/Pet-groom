@@ -1,0 +1,74 @@
+/* ---------- hero head over the photo (phones) ---------- */
+.hero-head {
+  display: contents;
+}
+@media (max-width: 760px) {
+  .hero {
+    --photo-h: 100svh;
+  }
+  .hero-story {
+    position: absolute;
+    inset: 0 0 auto;
+    width: auto;
+    height: var(--photo-h);
+    margin: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  /* Darkens the lower part of the photo so white text stays readable. */
+  .hero-story::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(26 14 46 / 0) 38%, rgb(26 14 46 / 0.35) 62%, rgb(26 14 46 / 0.82) 100%);
+  }
+  .hero .wrap {
+    margin-top: 0;
+  }
+  .hero-head {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: var(--photo-h);
+    padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+  }
+  .hero-head h1 {
+    color: #fff;
+    text-shadow: 0 2px 18px rgb(26 14 46 / 0.35);
+  }
+  .hero-head .subtitle {
+    margin: 0;
+    color: rgb(255 255 255 / 0.9);
+  }
+  .hero-head .slogan {
+    margin: 0;
+    font-size: 0.75rem;
+    background: rgb(255 255 255 / 0.9);
+  }
+  .hero-head h1 {
+    font-size: 1.75rem;
+  }
+  .hero-head .subtitle {
+    font-size: 0.9375rem;
+  }
+  /* Booking buttons stacked, full width. */
+  .hero-head .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 100%;
+    padding-top: 6px;
+  }
+  .hero-head .hero-actions .btn {
+    font-size: 0.9375rem;
+    padding: 0.95em 1em;
+    gap: 0.45em;
+    white-space: nowrap;
+  }
+  .hero-head .btn-line {
+    background: rgb(255 255 255 / 0.88);
+    border-color: transparent;
+  }
+}

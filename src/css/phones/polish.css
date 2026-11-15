@@ -1,0 +1,205 @@
+/* ---------- phone polish (mobile audit, 2026-11-15) ---------- */
+@media (max-width: 640px) {
+  /* 1. "Прокласти маршрут": the shared .btn-tg rule (position: relative) knocked it off its absolute spot onto the map;
+     on phones it sits under the map, full width */
+  .contacts .map {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: visible;
+    border: 0;
+    background: none;
+  }
+  .map iframe {
+    position: static;
+    height: 280px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+  }
+  .contacts .map-route {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    margin-top: 12px;
+    justify-content: center;
+  }
+
+  /* 2. floating buttons step aside over the closing block, contacts and footer (see the script); more room under the footer */
+  html.float-off .fab,
+  html.float-off .promo-btn {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    scale: 0.8;
+  }
+  .fab {
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s var(--ease-out),
+      scale 0.3s var(--ease-out),
+      visibility 0.3s;
+  }
+  .footer {
+    /* the last footer row must stay clear of the bottom 8% of the screen, or its reveal never fires */
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* 3. the promo bubble: one short line beside the promo button instead of a card over the content */
+  .promo-teaser {
+    left: 130px;
+    right: auto;
+    bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+    max-width: calc(100vw - 130px - 92px);
+    padding: 8px 12px;
+    border-radius: 14px 14px 14px 4px;
+    white-space: nowrap;
+  }
+  .promo-teaser span {
+    display: none;
+  }
+  .promo-teaser b {
+    font-size: 0.8125rem;
+  }
+
+  /* 6. closing call-to-action: one booking button, the channels as round icons */
+  .final .final-book {
+    justify-self: stretch;
+  }
+  .final-or {
+    margin: 4px 0 -4px;
+    font-size: 0.8125rem;
+  }
+  .channels.is-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .channels.is-icons .btn {
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    gap: 0;
+    border-radius: 50%;
+    font-size: 0;
+  }
+  .channels.is-icons .ico {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* 7. contacts: one phone line with Viber / WhatsApp icons, the repeated rows hidden */
+  .contacts .m-merged {
+    display: none;
+  }
+  .ct-apps {
+    display: inline-flex;
+    gap: 8px;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  .contacts dd a.ct-app {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    margin: 0;
+    border-radius: 10px;
+    color: #fff;
+  }
+  .ct-app.c-vb {
+    background: linear-gradient(135deg, #8f6af7, #665cac);
+  }
+  .ct-app.c-wa {
+    background: linear-gradient(135deg, #3ad26a, #1fa855);
+  }
+  .ct-app .ico {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* 8. reviews board: each note centred (board inner width is 100vw - 40px), notes centred vertically */
+  .reviews.is-board {
+    position: relative; /* notes measure their offsetLeft from the board (dots, hint turn) */
+    grid-auto-columns: calc(100vw - 110px);
+    padding: 34px 35px 26px;
+    scroll-padding-inline: 35px;
+    align-items: center;
+  }
+  .reviews.is-board + .cert-dots {
+    margin-top: 14px;
+  }
+  .note-sheet {
+    width: 100%;
+    max-width: 100%;
+    max-height: 85svh;
+    margin: auto 0 0;
+    padding: 34px 16px calc(22px + env(safe-area-inset-bottom, 0px));
+    border: 0;
+    border-radius: 24px 24px 0 0;
+    background: var(--paper);
+    overflow: auto;
+  }
+  .note-sheet::backdrop {
+    background: color-mix(in srgb, var(--ink) 55%, transparent);
+    backdrop-filter: blur(4px);
+  }
+  .motion .note-sheet[open] {
+    animation: sheet-up 0.4s var(--ease-out);
+  }
+  .note-sheet .review {
+    rotate: 0deg;
+  }
+  .note-sheet-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--tg-soft);
+    color: var(--tg-deep);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  /* 9. "Чому обирають нас" icons in the same violet circles as "Спеціалізація" right under them */
+  .why svg {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 50%;
+    background: var(--grad);
+    stroke: #fff;
+    stroke-width: 2;
+  }
+
+  /* 10. bigger tap areas for small text links (the look doesn't change) */
+  .photo-cta .alt a,
+  .contacts dd a:not(.ct-app),
+  .faq details p a,
+  .footer a,
+  .note-more {
+    display: inline-block;
+    padding-block: 10px;
+    margin-block: -10px;
+  }
+  .faq .row-end .link-tg {
+    padding-block: 10px;
+    margin-block: -10px;
+  }
+
+  /* 11. nothing under 12px */
+  .picker .stepper button {
+    font-size: 0.75rem;
+  }
+  .st-top small,
+  .is-board .review small,
+  .bf-field small {
+    font-size: 0.75rem;
+  }
+}
