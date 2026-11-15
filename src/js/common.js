@@ -99,7 +99,7 @@ bookModal.setAttribute("aria-labelledby", "book-title");
 bookModal.innerHTML = `<div class="book-head"><button type="button" class="promo-close" data-book-close aria-label="Закрити">×</button><p class="eyebrow">Щодня з 9:00 до 20:00</p><h2 id="book-title"></h2><p class="book-sub"></p></div><ul class="book-list">${BOOK_CHANNELS.map(
   ([key, cls, ico, name, note]) =>
     `<li><a class="${cls}" data-ch="${key}" href="#"><span class="c-ico"><svg class="ico"><use href="#${ico}" /></svg></span><span><b>${name}</b><small>${note}</small></span></a></li>`,
-).join("")}</ul><div class="book-alt"><p class="book-or"><span>або</span></p><a class="book-form-link" href="#book-form"><span class="c-ico">${FORM_ICON}</span><span><b>Заповнити онлайн-заявку</b><small>Кілька полів, і готове повідомлення для чату</small></span><svg class="book-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg></a></div><p class="book-note" hidden></p>`;
+).join("")}</ul><div class="book-alt"><p class="book-or"><span>або</span></p><a class="book-form-link" href="#book-form"><span class="c-ico">${FORM_ICON}</span><span><b>Заповнити онлайн-заявку</b><small>Кілька полів, і готове повідомлення для чату</small></span><svg class="book-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg></a></div><p class="book-note" hidden></p><div class="book-step" hidden><div class="book-step-ok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg><span><b>Текст заявки скопійовано</b><small></small></span></div><div class="paste-demo" aria-hidden="true"><div class="pd-chat"><span class="pd-bubble">Вставити</span><div class="pd-input"><span class="pd-placeholder">Повідомлення</span><span class="pd-text">Добрий день! Хочу записатися…</span><span class="pd-send"></span></div><span class="pd-finger"></span></div></div><ol><li>Натисніть <b>«Відкрити»</b> нижче — відкриється чат з адміністратором</li><li>У чаті <b>натисніть і утримуйте</b> поле повідомлення, поки з'явиться <b>«Вставити»</b></li><li>Натисніть <b>«Вставити»</b> і надішліть повідомлення</li></ol><textarea class="book-step-text" readonly rows="4" aria-label="Текст заявки"></textarea><button type="button" class="book-step-copy">Скопіювати ще раз</button><a class="btn btn-tg btn-lg book-step-go" href="#"></a><button type="button" class="book-step-back">← Обрати інший месенджер</button></div>`;
 document.body.append(bookModal);
 let bookText = "";
 // On the home page the link scrolls to the form; elsewhere (blog) it goes to the home page's form.
@@ -122,8 +122,56 @@ function jumpToForm() {
   setTimeout(() => form.elements.name.focus({ preventScroll: true }), 600);
   return true;
 }
+// Copy the request: the async Clipboard API where allowed, else the old select-and-copy (older iOS)
+function copyText(text) {
+  const fallback = () => {
+    const ta = bookModal.querySelector(".book-step-text");
+    ta.value = text;
+    ta.removeAttribute("readonly");
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    let ok = false;
+    try {
+      ok = document.execCommand("copy");
+    } catch {}
+    ta.setAttribute("readonly", "");
+    return ok;
+  };
+  if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(text).then(() => true, fallback);
+  return Promise.resolve(fallback());
+}
+// Telegram and Viber can't take a prefilled message, so before leaving for the app the modal shows a step:
+// "copied", what to do in the chat, the text itself (to copy by hand if needed) and the button that opens the chat.
+function showStep(key) {
+  const step = bookModal.querySelector(".book-step");
+  const parts = bookModal.querySelectorAll(".book-list, .book-alt, .book-note");
+  step.hidden = !key;
+  parts.forEach((el) => el.classList.toggle("is-stepped", !!key));
+  if (bookText) bookModal.querySelector(".book-sub").textContent = key ? "Ще один крок: вставте заявку в чат" : "Оберіть, де вам зручніше написати";
+  if (!key) return;
+  const name = key === "viber" ? "Viber" : "Telegram";
+  step.querySelector(".book-step-text").value = bookText;
+  const go = step.querySelector(".book-step-go");
+  go.href = LINKS[key];
+  if (LINKS[key].startsWith("https:")) {
+    go.target = "_blank";
+    go.rel = "noopener";
+  } else go.removeAttribute("target");
+  go.innerHTML = `<svg class="ico"><use href="#i-${key === "viber" ? "viber" : "tg"}" /></svg>Відкрити ${name}`;
+  step.querySelector(".pd-send").style.background = key === "viber" ? "#7360f2" : "#37aee2";
+  const ok = step.querySelector(".book-step-ok");
+  const mark = (copied) => {
+    ok.classList.toggle("is-failed", !copied);
+    step.classList.toggle("copy-failed", !copied); // the text box is shown only when it has to be copied by hand
+    ok.querySelector("b").textContent = copied ? "Текст заявки скопійовано" : "Скопіюйте текст заявки";
+    ok.querySelector("small").textContent = copied ? `Залишилось вставити його в чат ${name}` : "Виділіть текст нижче або натисніть «Скопіювати ще раз»";
+  };
+  mark(true);
+  copyText(bookText).then(mark);
+}
 function openBooking({ title = "Записатися на грумінг", text = "", form = !text } = {}) {
   bookText = text;
+  showStep(null);
   bookModal.querySelector("#book-title").textContent = title;
   bookModal.querySelector(".book-alt").hidden = !form;
   bookModal.querySelector(".book-sub").textContent = form
@@ -133,7 +181,7 @@ function openBooking({ title = "Записатися на грумінг", text 
   note.hidden = !text;
   // a ready request goes to a chat, so the call option is hidden then
   bookModal.querySelector('[data-ch="phone"]').parentElement.hidden = !!text;
-  note.textContent = "Текст заявки вже готовий: у WhatsApp він підставиться сам, для Telegram і Viber ми скопіюємо його, просто вставте в чат.";
+  note.textContent = "Текст заявки вже готовий: у WhatsApp він підставиться сам, для Telegram і Viber ми скопіюємо його — залишиться лише вставити в чат.";
   bookModal.querySelectorAll("[data-ch]").forEach((a) => {
     const key = a.dataset.ch;
     let url = LINKS[key] || "#";
@@ -163,12 +211,26 @@ bookModal.addEventListener("click", (e) => {
     return showToast(HINTS[key], 2400);
   }
   if (bookText && (key === "telegram" || key === "viber")) {
-    navigator.clipboard?.writeText(bookText).then(
-      () => showToast("Текст заявки скопійовано. Вставте його в чат", 4000),
-      () => {},
-    );
+    e.preventDefault();
+    return showStep(key);
   }
   setTimeout(() => bookModal.close(), 150);
+});
+bookModal.querySelector(".book-step").addEventListener("click", (e) => {
+  if (e.target.closest(".book-step-back")) return showStep(null);
+  if (e.target.closest(".book-step-copy")) {
+    const btn = e.target.closest(".book-step-copy");
+    copyText(bookText).then((ok) => {
+      btn.textContent = ok ? "Скопійовано ✓" : "Не вдалося — виділіть текст вручну";
+      setTimeout(() => (btn.textContent = "Скопіювати ще раз"), 2500);
+    });
+    return;
+  }
+  if (e.target.closest(".book-step-go")) {
+    // copy once more right before leaving: on iPhone the app opens instantly
+    copyText(bookText);
+    setTimeout(() => bookModal.close(), 400);
+  }
 });
 document.addEventListener("click", (e) => {
   const el = e.target.closest("[data-book]");

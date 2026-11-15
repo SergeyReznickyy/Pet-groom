@@ -322,3 +322,270 @@
     translate: 0 100%;
   }
 }
+
+/* Telegram / Viber with a ready request: a step inside the modal — copied, what to do, the text, "open the chat" */
+.book-list.is-stepped,
+.book-alt.is-stepped,
+.book-note.is-stepped {
+  display: none;
+}
+.book-step {
+  display: grid;
+  gap: 12px;
+  padding: 16px 18px 18px;
+}
+.book-step[hidden] {
+  display: none;
+}
+.book-step-ok {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #e9f8ef;
+}
+.book-step-ok svg {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border-radius: 50%;
+  background: #1fa855;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.book-step-ok.is-failed {
+  background: #fff4e5;
+}
+.book-step-ok.is-failed svg {
+  background: #e08a1e;
+}
+.book-step-ok b {
+  display: block;
+  font-size: 0.9375rem;
+}
+.book-step-ok small {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--steel);
+}
+.book-step ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 1.2em;
+  font-size: 0.875rem;
+  color: var(--ink);
+}
+.book-step-text {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--steel);
+  font: 500 0.875rem/1.45 var(--f-body);
+  resize: none;
+}
+.book-step-copy,
+.book-step-back {
+  justify-self: start;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--tg);
+  font: 600 0.875rem var(--f-body);
+  cursor: pointer;
+}
+.book-step-copy {
+  margin-top: -6px;
+}
+.book-step-go {
+  width: 100%;
+}
+.book-step-back {
+  justify-self: center;
+  color: var(--steel);
+  font-weight: 500;
+}
+@media (max-width: 640px) {
+  .book-step {
+    gap: 10px;
+    padding: 14px 14px 16px;
+  }
+  .book-step-text {
+    font-size: 1rem; /* 16px: iOS doesn't zoom in when it is tapped */
+  }
+}
+
+/* Paste demo: a tiny chat field that shows "press and hold → Вставити → the text appears", looping while the step is open */
+.paste-demo {
+  padding: 14px 14px 12px;
+  border-radius: 16px;
+  background: var(--chat-bg);
+}
+.pd-chat {
+  position: relative;
+  padding-top: 38px;
+}
+.pd-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 44px 0 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: 0.875rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.pd-placeholder,
+.pd-text {
+  position: absolute;
+  left: 14px;
+  right: 44px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pd-placeholder {
+  color: var(--steel);
+  opacity: 0.7;
+}
+.pd-text {
+  color: var(--ink);
+  opacity: 0;
+}
+.pd-send {
+  position: absolute;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #37aee2;
+  opacity: 0.35;
+}
+/* the "Вставити" bubble above the field */
+.pd-bubble {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: #2d2d33;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  opacity: 0;
+}
+.pd-bubble::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  bottom: -5px;
+  border: 6px solid transparent;
+  border-bottom: 0;
+  border-top-color: #2d2d33;
+}
+/* the fingertip: presses the field, holds, then taps the bubble */
+.pd-finger {
+  position: absolute;
+  left: 70px;
+  top: 50px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgb(var(--tg-rgb) / 0.35);
+  border: 2px solid rgb(var(--tg-rgb) / 0.8);
+  opacity: 0;
+}
+.book-step:not([hidden]) .pd-finger {
+  animation: pd-finger 4.4s ease-in-out infinite;
+}
+.book-step:not([hidden]) .pd-bubble {
+  animation: pd-bubble 4.4s ease-in-out infinite;
+}
+.book-step:not([hidden]) .pd-text {
+  animation: pd-text 4.4s ease-in-out infinite;
+}
+.book-step:not([hidden]) .pd-placeholder {
+  animation: pd-placeholder 4.4s ease-in-out infinite;
+}
+.book-step:not([hidden]) .pd-send {
+  animation: pd-send 4.4s ease-in-out infinite;
+}
+@keyframes pd-finger {
+  0% { opacity: 0; transform: translate(10px, 14px) scale(1.2); }
+  10% { opacity: 1; transform: none; }
+  /* press and hold: the ring shrinks a little */
+  14%, 34% { opacity: 1; transform: scale(0.85); }
+  /* move up to the bubble and tap it */
+  46% { opacity: 1; transform: translate(-6px, -44px) scale(1); }
+  52% { opacity: 1; transform: translate(-6px, -44px) scale(0.8); }
+  58% { opacity: 0; transform: translate(-6px, -44px) scale(1.1); }
+  100% { opacity: 0; transform: translate(-6px, -44px); }
+}
+@keyframes pd-bubble {
+  0%, 32% { opacity: 0; transform: translateY(4px); }
+  38%, 54% { opacity: 1; transform: none; }
+  60%, 100% { opacity: 0; transform: none; }
+}
+@keyframes pd-text {
+  0%, 55% { opacity: 0; }
+  62%, 92% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes pd-placeholder {
+  0%, 55% { opacity: 0.7; }
+  58%, 94% { opacity: 0; }
+  100% { opacity: 0.7; }
+}
+@keyframes pd-send {
+  0%, 58% { opacity: 0.35; }
+  64%, 92% { opacity: 1; }
+  100% { opacity: 0.35; }
+}
+/* without motion: show the finished state (bubble and text) as a still picture */
+@media (prefers-reduced-motion: reduce) {
+  .book-step .pd-finger,
+  .book-step .pd-placeholder {
+    display: none;
+  }
+  .book-step .pd-bubble,
+  .book-step .pd-text,
+  .book-step .pd-send {
+    animation: none !important;
+    opacity: 1;
+  }
+}
+
+/* the request text is shown only if copying failed (then it is selected for copying by hand) */
+.book-step .book-step-text {
+  display: none;
+}
+.book-step.copy-failed .book-step-text {
+  display: block;
+}
+@media (max-width: 640px) {
+  .book-step ol {
+    gap: 4px;
+    font-size: 0.8125rem;
+  }
+  .paste-demo {
+    padding: 10px 12px;
+  }
+}
+/* very short screens (iPhone SE 1st gen): drop the hours line in the header to keep the step on one screen */
+@media (max-width: 640px) and (max-height: 600px) {
+  .book-head .eyebrow {
+    display: none;
+  }
+  .pd-chat {
+    padding-top: 34px;
+  }
+}

@@ -36,14 +36,18 @@
     background: rgb(255 255 255 / 0.9);
   }
 
-  /* blocks fade up without the blur (animating filter: blur is the costly part on iOS) */
-  .motion .reveal {
+  /* Blocks below the first screen don't fade/slide in while the finger scrolls: measured on a throttled phone,
+     those transitions were most of the repaint and layout work during scrolling, and moving content is hard to read.
+     The first screen keeps its entrance (it plays on load), headlines keep their word-by-word rise. */
+  .motion .reveal:not(.hero .reveal, .words),
+  .motion .section .reveal > :is(svg, h3, p, .link-tg) {
+    opacity: 1;
+    transform: none;
     filter: none;
-    transform: translate3d(0, 20px, 0);
-    transition:
-      opacity 0.7s var(--ease-out),
-      transform 0.8s var(--ease-out);
-    transition-delay: var(--delay, calc(var(--d, 0) * 70ms));
+    transition: none;
+  }
+  .motion .hero .reveal {
+    filter: none;
   }
 
   /* pulsing rings of the floating buttons: a scaled outline (compositor-only) instead of an animated box-shadow */
