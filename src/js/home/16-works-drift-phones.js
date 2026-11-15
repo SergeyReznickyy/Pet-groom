@@ -20,16 +20,32 @@ if (matchMedia("(max-width: 640px)").matches && !matchMedia("(prefers-reduced-mo
     let visible = false;
     let resumeTimer;
     let last;
-    const period = () => track.children[items.length].offsetLeft - items[0].offsetLeft;
+    // the loop length is measured once (and on width changes), not on every frame: reading layout 60 times a second
+    // while the page scrolls is what made iPhones stutter
+    let loopW = 0;
+    const measure = () => (loopW = track.children[items.length].offsetLeft - items[0].offsetLeft);
+    let frame = 0;
     const tick = (now) => {
-      if (last !== undefined && !paused && visible) {
+      frame = 0;
+      if (!visible) return (last = undefined); // the loop sleeps while the row is off screen
+      if (last !== undefined && !paused) {
         pos += (SPEED * (now - last)) / 1000;
-        if (pos >= period()) pos -= period();
+        if (pos >= loopW) pos -= loopW;
         track.scrollLeft = pos;
       }
       last = now;
-      requestAnimationFrame(tick);
+      frame = requestAnimationFrame(tick);
     };
+    const wake = () => {
+      if (!frame && visible) frame = requestAnimationFrame(tick);
+    };
+    let lastW = innerWidth;
+    addEventListener("resize", () => {
+      // iOS fires resize when its toolbars slide in and out; only a real width change needs re-measuring
+      if (innerWidth === lastW) return;
+      lastW = innerWidth;
+      measure();
+    });
     const pause = () => {
       paused = true;
       clearTimeout(resumeTimer);
@@ -37,7 +53,7 @@ if (matchMedia("(max-width: 640px)").matches && !matchMedia("(prefers-reduced-mo
     const resume = () => {
       clearTimeout(resumeTimer);
       resumeTimer = setTimeout(() => {
-        pos = track.scrollLeft % period();
+        pos = track.scrollLeft % loopW;
         paused = false;
       }, RESUME_MS);
     };
@@ -60,9 +76,10 @@ if (matchMedia("(max-width: 640px)").matches && !matchMedia("(prefers-reduced-mo
           paused = true;
           setTimeout(() => (paused = false), 1500);
         }
+        wake();
       },
       { threshold: 0.5 },
     ).observe(track);
-    requestAnimationFrame(tick);
+    measure();
   });
 }

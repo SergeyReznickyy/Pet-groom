@@ -50,8 +50,9 @@ new IntersectionObserver(([e]) => {
 let teaserTimer;
 let promoShown = false;
 const whySection = document.getElementById("why");
-const syncPromo = () => {
-  const show = whySection.getBoundingClientRect().top < innerHeight * 0.85;
+// shown once the top of "Чому обирають нас" passes 85% of the screen height (and while it is above the screen);
+// an observer instead of a scroll handler, so nothing is measured while the page scrolls
+const syncPromo = (show) => {
   if (show === promoShown) return;
   promoShown = show;
   document.documentElement.classList.toggle("show-promo", show);
@@ -59,6 +60,8 @@ const syncPromo = () => {
   if (show) teaserTimer = setTimeout(showTeaser, 2500);
   else promoTeaser.hidden = true;
 };
-syncPromo();
-addEventListener("scroll", () => requestAnimationFrame(syncPromo), { passive: true });
-addEventListener("resize", syncPromo);
+// The observed area reaches far above the screen, so "intersecting" means exactly "its top is above the 85% line",
+// even after a jump from the very bottom of the page straight to the top.
+new IntersectionObserver(([e]) => syncPromo(e.isIntersecting), {
+  rootMargin: "1000000px 0px -15% 0px",
+}).observe(whySection);

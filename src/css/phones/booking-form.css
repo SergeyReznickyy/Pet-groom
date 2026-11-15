@@ -1,0 +1,103 @@
+/* Phones: a compact online form — title with a small dog/cat switch beside it, name + breed and date + time in
+   two-column rows, the optional comment behind a "+ Додати коментар" link (see 13-booking-form.js).
+   Fields stay 46px tall for easy tapping, and their text stays 16px so iOS doesn't zoom in on focus. */
+@media (max-width: 640px) {
+  .book-form {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px 10px;
+    padding: 18px 16px 16px;
+    border-radius: 20px;
+  }
+  .book-form > * {
+    grid-column: 1 / -1;
+  }
+  .book-form h3 {
+    grid-column: 1;
+    align-self: center;
+    font-size: 1.1875rem;
+    white-space: nowrap;
+  }
+  .bf-sub {
+    margin-top: -6px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+  /* dog / cat: a small segmented switch next to the title */
+  .book-form .bf-pets {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: center;
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    gap: 0;
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--tg-soft);
+  }
+  .bf-pets span {
+    padding: 6px 11px;
+    border: 0;
+    font-size: 0.8125rem;
+  }
+  .bf-pets input:checked + span {
+    background: var(--surface);
+    box-shadow: 0 2px 6px -2px rgb(var(--shadow-rgb) / 0.35);
+  }
+  /* name | breed */
+  .book-form > .bf-field:has([name="name"]) {
+    grid-column: 1;
+  }
+  .book-form > .bf-field:has([name="breed"]) {
+    grid-column: 2;
+  }
+  /* strictly half and half: the date input's own minimum width must not squeeze the time select */
+  .book-form .bf-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+  }
+  .bf-field :is(input, select) {
+    min-width: 0;
+  }
+  .bf-field {
+    gap: 4px;
+    font-size: 0.8125rem;
+  }
+  .bf-field :is(input, select, textarea) {
+    min-height: 46px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 1rem;
+  }
+  .bf-field select {
+    padding-left: 11px;
+    padding-right: 28px;
+    background-position: right 8px center;
+    background-size: 15px;
+  }
+  .bf-field input[type="date"] {
+    padding-right: 6px;
+  }
+  .bf-field input[type="date"]::-webkit-calendar-picker-indicator {
+    margin-left: 2px;
+  }
+  /* optional comment: folded behind a link until wanted */
+  .bf-note-toggle {
+    justify-self: start;
+    margin: -2px 0;
+    padding: 8px 0;
+    border: 0;
+    background: none;
+    color: var(--tg);
+    font: 600 0.875rem var(--f-body);
+    cursor: pointer;
+  }
+  .book-form > .bf-field:has([name="note"]).is-folded {
+    display: none;
+  }
+  .book-form .btn {
+    margin-top: 2px;
+    padding: 0.95em 1.2em;
+    font-size: 1rem;
+  }
+}

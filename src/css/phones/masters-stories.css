@@ -125,15 +125,18 @@
     background: rgb(255 255 255 / 0.35);
     overflow: hidden;
   }
+  /* the fill grows with transform: scaleX (not width), so the running bar never re-lays out the page */
   .st-bars b {
     display: block;
     height: 100%;
-    width: 0;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
     border-radius: inherit;
     background: #fff;
   }
   .st-bars .is-done b {
-    width: 100%;
+    transform: none;
   }
   .st-bars .is-now b {
     animation: st-fill var(--story-ms, 5s) linear forwards;
@@ -143,12 +146,12 @@
   }
   /* without motion the bars don't run: the current one is simply shown full */
   html:not(.motion) .st-bars .is-now b {
-    width: 100%;
+    transform: none;
     animation: none;
   }
   @keyframes st-fill {
     to {
-      width: 100%;
+      transform: scaleX(1);
     }
   }
   .st-hint {

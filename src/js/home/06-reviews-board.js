@@ -28,7 +28,11 @@
     });
   document.fonts.ready.then(markLong); // the handwritten font changes line breaks once it loads
   let markTimer;
+  let markW = innerWidth;
   addEventListener("resize", () => {
+    // iOS fires resize when its toolbars slide in and out; only a width change can change the line breaks
+    if (innerWidth === markW) return;
+    markW = innerWidth;
     clearTimeout(markTimer);
     markTimer = setTimeout(markLong, 200);
   });

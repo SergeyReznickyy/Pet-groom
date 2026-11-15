@@ -18,6 +18,24 @@ if (document.documentElement.classList.contains("motion")) {
   );
   formIO.observe(bookForm);
 }
+// Phones: the optional comment folds behind a "+ Додати коментар" link, so the form stays short.
+if (matchMedia("(max-width: 640px)").matches) {
+  const noteField = bookForm.elements.note.closest(".bf-field");
+  const noteToggle = document.createElement("button");
+  noteToggle.type = "button";
+  noteToggle.className = "bf-note-toggle";
+  noteToggle.textContent = "+ Додати коментар";
+  noteToggle.style.setProperty("--k", noteField.style.getPropertyValue("--k"));
+  noteField.classList.add("is-folded");
+  // the half-width breed field fits only a short hint
+  bookForm.elements.breed.placeholder = "шпіц, 3 кг";
+  noteField.before(noteToggle);
+  noteToggle.addEventListener("click", () => {
+    noteField.classList.remove("is-folded");
+    noteToggle.remove();
+    bookForm.elements.note.focus();
+  });
+}
 const dateInput = bookForm.elements.date;
 dateInput.min = new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
 bookForm.addEventListener("submit", (e) => {
